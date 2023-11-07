@@ -1,6 +1,6 @@
 # CardGamesCheckerAPI 
 
-## Completed Microservices [PokerGameCheckerMicroservice](#PokerGameCheckerMicroservice)
+## Completed Microservices: [PokerGameCheckerMicroservice](#PokerGameCheckerMicroservice)
 ## Pending Microservices (BlackJackCheckerMicroservice)
 
 ## PokerGameCheckerMicroservice
