@@ -1,14 +1,14 @@
 Poker Game Checker Microservice
 
  Table of Contents
-- [Introduction]
-- [Features]
-- [Getting Started]
-- [API Endpoints]
-- [Swagger Documentation]
-- [Testing]
-- [Contributing]
-- [License]
+  Introduction
+  Features]
+  Getting Started
+  API Endpoints
+  Swagger Documentation
+  Testing
+  Contributing
+  License
 
 Introduction
 
@@ -38,7 +38,7 @@ To get started with this microservice, follow these steps:
 
 3. API Usage:
    - Use your preferred API testing tool (e.g., [Postman](https://www.postman.com/)) to send requests to the API.
-   - Refer to the [API Endpoints](api-endpoints) section for details on the available endpoints.
+   - Refer to the [API Endpoints] section for details on the available endpoints.
 
 4. Testing:
    - Write and run unit tests to ensure the application behaves as expected.
