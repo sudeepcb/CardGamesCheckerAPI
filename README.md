@@ -1,4 +1,9 @@
-# Poker Game Checker Microservice
+# CardGamesCheckerAPI 
+
+Completed Microservices (PokerGameCheckerMicroservice)
+Pending Microservices (BlackJackCheckerMicroservice)
+
+# PokerGameCheckerMicroservice
 
 ![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)
 
@@ -28,7 +33,7 @@ To get started with this microservice, follow these steps:
 1. **Clone the repository:**
    ```shell
    git clone https://github.com/sudeepcb/CardGamesCheckerAPI.git
-   cd CardGamesCheckerAPI
+   cd CardGamesCheckerAPI/PokerGameCheckerMicroservice
    ```
 
 2. **Build and Run:**
