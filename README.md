@@ -86,4 +86,3 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use, mod
 
 ---
 
-Feel free to customize this README to match your project's specific details.
