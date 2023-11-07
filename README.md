@@ -64,7 +64,7 @@ Swagger is integrated into the project for API documentation. To explore the API
 ## Documentation
 Documentation is located in the documents folder in the REPO.
 
-[Documentation](https://github.com/sudeepcb/CardGamesCheckerAPI/tree/054071bac7812fe6e58df965b54726edc2042183/Documentation)
+[Documentation]([https://github.com/sudeepcb/CardGamesCheckerAPI/tree/054071bac7812fe6e58df965b54726edc2042183/Documentation](https://github.com/sudeepcb/CardGamesCheckerAPI/tree/7ef550dacb18883d2a350dbd7bd5d9e08dc42452/PokerGameCheckerMicroservice%20-%20Documentation))
 
 ## Testing
 For now testing has been done for main functionally but more tests related to during the process of creating models, as well as testing different test cases should be performed in the future.
