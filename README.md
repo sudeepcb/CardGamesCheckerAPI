@@ -62,7 +62,12 @@ Documentation is located in the documents folder in the REPO.
 [Documentation](https://github.com/sudeepcb/CardGamesCheckerAPI/tree/054071bac7812fe6e58df965b54726edc2042183/Documentation)
 
 ## Testing
-Make sure to write unit tests to validate the functionality of the microservice. Tests help ensure that the components work as expected and that the API functions correctly in various scenarios.
+For now testing has been done for main functionally but more tests related to during the process of creating models, as well as testing different test cases should be performed in the future.
+
+Tests: 
+PokerGameChecker_CalculateWinner_ReturnsIActionResult()
+CardConstants_CheckIfCardRankingIsCorrectForGame_ReturnsRankWithGivenCards()
+
 
 To run the tests, use your development environment's testing framework.
 
