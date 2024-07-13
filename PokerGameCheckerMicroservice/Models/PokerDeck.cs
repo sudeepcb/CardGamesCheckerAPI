@@ -7,7 +7,7 @@ namespace PokerGameCheckerMicroservice.Models
     /// </summary>
     public class PokerDeck
     {
-        private List<PokerPlayer> _players = null!;
+        private List<PokerPlayer>? _players = null!;
 
         /// <summary>
         /// Gets or sets a list of players using this deck.
@@ -16,19 +16,12 @@ namespace PokerGameCheckerMicroservice.Models
         {
             get
             {
-                return _players;
+                return _players ?? new List<PokerPlayer>();
             }
 
             set
             {
-                if (value.Count > 1)
-                {
-                    _players = value;
-                }
-                else
-                {
-                    throw new ArgumentNullException("Players must be more than 1 to play a game");
-                }
+                _players = value;
             }
         }
 
@@ -45,14 +38,24 @@ namespace PokerGameCheckerMicroservice.Models
             }
             set
             {
-                if (value >= _players.Count * 5)
-                {
-                    _totalCards = value;
-                }
-                else
-                {
-                    throw new ArgumentNullException("Total Cards must be greater or equal to the number of Players times 5");
-                }
+                _totalCards = 52;
+            }
+        }
+
+        private PokerPlayer? _highestRanked;
+
+        /// <summary>
+        /// Get or sets the highest ranked player
+        /// </summary>
+        public PokerPlayer? HighestRanked 
+        {
+            get
+            {
+                return _highestRanked;
+            } 
+            set
+            {
+                _highestRanked = value;
             }
         }
 

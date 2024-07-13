@@ -19,25 +19,18 @@ public class Poker
         get { return _players; }
         set
         {
-            if (value > 0)
-            {
-                _players = value;
-            }
-            else
-            {
-                throw new ArgumentNullException("MyProperty cannot be set to null");
-            }
+           _players = value;
         }
     }
 
-    private PokerDeck _decksInHand = null!;
+    private PokerDeck? _decksInHand = null!;
 
     /// <summary>
     /// Gets or sets deck for the current game.
     /// </summary>
     public PokerDeck AllDecks
     {
-        get { return _decksInHand; }
+        get { return _decksInHand ?? new PokerDeck(); }
         set
         {
             if (value != null)
@@ -63,10 +56,9 @@ public class Poker
     /// Determine the winner of the Poker game.
     /// </summary>
     /// <returns>The winning player.</returns>
-    public PokerPlayer DetermineWinner()
+    public PokerDeck DetermineWinner()
     {
-        PokerPlayer highestRankedPlayer = null!;
-        if (_decksInHand.Player.Count != _players)
+        if (_decksInHand?.Player.Count != _players)
         {
             throw new ArgumentNullException("Total Players does not match Decks of Players");
         }
@@ -76,7 +68,7 @@ public class Poker
             var rank = CardConstants.EvaluateHand(players.cardsInHand);
             players.CardRank = rank;
 
-            if (highestRankedPlayer == null)
+            /* if (highestRankedPlayer == null)
             {
                 highestRankedPlayer = players;
             }
@@ -90,8 +82,9 @@ public class Poker
                 {
 
                 }
-            }
+            } */
         }
-        return highestRankedPlayer;
+        AllDecks.HighestRanked = AllDecks.Player.OrderByDescending(x => x.CardRank).FirstOrDefault()!;
+        return AllDecks;
     }
 }

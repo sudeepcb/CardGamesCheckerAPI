@@ -7,7 +7,7 @@ using System.Linq;
 /// </summary>
 public class PokerPlayer : IPlayer
 {
-    private string _name = null!;
+    private string? _name;
 
     /// <summary>
     /// Gets or sets the name of the player.
@@ -16,22 +16,15 @@ public class PokerPlayer : IPlayer
     {
         get
         {
-            return _name;
+            return _name ?? "";
         }
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Name cannot be null");
-            }
-            else
-            {
-                _name = value;
-            }
+          _name = value;
         }
     }
 
-    private string[] _cardsInHand = null!;
+    private string[]? _cardsInHand = null;
 
     /// <summary>
     /// Gets or sets an array of cards in the player's hand.
@@ -40,16 +33,12 @@ public class PokerPlayer : IPlayer
     {
         get
         {
-            return _cardsInHand;
+            return _cardsInHand ?? new string[5];
         }
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Cards Cannot Be Empty");
-            }
-            else
-            {
+            if(value != null){
+                
                 var isValid = value.All(c => c.Length == 2);
                 if (isValid && (value.Length > 3 && value.Length < 6))
                 {
@@ -61,6 +50,7 @@ public class PokerPlayer : IPlayer
                 }
             }
         }
+
     }
 
     private int _rank;

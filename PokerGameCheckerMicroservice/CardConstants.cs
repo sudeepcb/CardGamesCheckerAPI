@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Reflection;
+using System.Security.Cryptography;
+using PokerGameCheckerMicroservice.Models;
 
 namespace PokerGameCheckerMicroservice
 {
@@ -16,7 +20,7 @@ namespace PokerGameCheckerMicroservice
         /// <summary>
         /// Club, Diamond, Heart, Spades
         /// </summary>
-        public static readonly string SUITS = "CDHS";
+        public static readonly string SUITS = "♠♥♦♣";
 
         /// <summary>
         /// Evaluates a poker hand and determines its ranking.
@@ -34,7 +38,7 @@ namespace PokerGameCheckerMicroservice
             //check for straight (consecutive ranks)
             var sortedRanks = ranks.OrderBy(rank => RANKS.IndexOf(rank));
             var getIndex = sortedRanks.Select((rank, index) => RANKS.IndexOf(rank)).ToArray();
-            bool isStraight = getIndex.SequenceEqual(Enumerable.Range(getIndex[0], getIndex.Count()));
+            bool isStraight = getIndex.SequenceEqual(getIndex); 
             //rank card in dictionary to counts of each card for checking pairs,and kinds
             var rankCounts = ranks.GroupBy(rank => rank).ToDictionary(group => group.Key, group => group.Count());
             var pair = rankCounts.Any(pair => pair.Value == 2);
@@ -61,6 +65,46 @@ namespace PokerGameCheckerMicroservice
             if (pair)
                 return 1; // One Pair
             return 0; // High Card
+        }
+
+        ///<summary>
+        ///Generates data for a poker game
+        ///</summary>
+        public static Poker GeneratePokerData(int totalPlayers)
+        {
+            Poker poker = null!;
+            var random = new Random();
+            string data =  String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]);
+            var decks = Enumerable.Range(0, 5)
+                                    .Select(_ => RANKS[random.Next(0, RANKS.Length)] + SUITS[random.Next(0, SUITS.Length)])
+                                    .ToArray();
+
+            string[] names = ["Heart", "Spade", "Diamond", "Club", "Ace"];
+            List<PokerPlayer> generatedPlayers = Enumerable.Range(0, totalPlayers).Select(_ => new PokerPlayer
+            {
+                Name = names[random.Next(0, names.Length)],
+                cardsInHand = new string[5]
+                {
+                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                },
+                CardRank = 0
+            }).ToList();
+
+            poker = new Poker
+            {
+                TotalPlayers = totalPlayers,
+                AllDecks = new PokerDeck
+                {
+                    Player = generatedPlayers,
+                    TotalCards = 52
+                }
+            };
+
+            return poker;
         }
     }
 }
