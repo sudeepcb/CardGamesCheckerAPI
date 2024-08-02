@@ -11,12 +11,12 @@ namespace CardGameMicroservicesTest
     public class PokerGameMicroservicesTests
     {
         private readonly IFixture _fixture;
-        private readonly PokerGameController _sut;
+        private readonly PokerGamesController _sut;
 
         public PokerGameMicroservicesTests()
         {
             _fixture = new Fixture();
-            _sut = new PokerGameController();
+            _sut = new PokerGamesController();
         }
         [Fact]
         public void PokerGameChecker_CalculateWinner_ReturnsIActionResult()

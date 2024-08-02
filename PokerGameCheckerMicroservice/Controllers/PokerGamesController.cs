@@ -13,7 +13,7 @@ namespace PokerGameCheckerMicroservice.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    public class PokerGameController : Controller
+    public class PokerGamesController : Controller
     {
 
         ///<summary>
