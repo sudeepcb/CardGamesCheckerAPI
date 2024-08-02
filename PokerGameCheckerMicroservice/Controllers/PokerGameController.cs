@@ -23,7 +23,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("pokerdata")]
         public IActionResult GeneratePokerData([FromQuery] int totalPlayers)
         {
             return Ok(CardConstants.GeneratePokerData(totalPlayers));
@@ -36,7 +36,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("straightflush")]
         public IActionResult GenerateStraightFlush([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -49,7 +49,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("fourofakind")]
         public IActionResult GenerateFourOfAKind([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -62,7 +62,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("fullhouse")]
           public IActionResult GenerateFullHouse([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -75,7 +75,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("flush")]
            public IActionResult GenerateFlush([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -88,7 +88,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("straight")]
         public IActionResult GenerateStraight([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -101,7 +101,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("threeofakind")]
           public IActionResult GenerateThreeOfAKind([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -114,7 +114,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("twopair")]
            public IActionResult GenerateTwoPair([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -127,7 +127,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("onepair")]
         public IActionResult GenerateOnePair([FromQuery] int totalPlayers)
         {
             return Ok();
@@ -140,7 +140,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
-        [HttpGet]
+        [HttpGet("highcard")]
           public IActionResult GenerateHighCard([FromQuery] int totalPlayers)
         {
             return Ok();
