@@ -1,8 +1,4 @@
-﻿using Interfaces;
-using PokerGameCheckerMicroservice;
-using PokerGameCheckerMicroservice.Models;
-using System;
-using System.Collections.Generic;
+﻿namespace PokerGameCheckerMicroservice.Models;
 
 /// <summary>
 /// Represents a Poker game.
@@ -19,7 +15,7 @@ public class Poker
         get { return _players; }
         set
         {
-           _players = value;
+            _players = value;
         }
     }
 
@@ -69,22 +65,31 @@ public class Poker
             players.CardRank = rank;
 
             /* if (highestRankedPlayer == null)
+        {
+            highestRankedPlayer = players;
+        }
+        else if (highestRankedPlayer.CardRank == rank)
+        {
+            if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) > highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
             {
                 highestRankedPlayer = players;
             }
-            else if (highestRankedPlayer.CardRank == rank)
+            else if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) == highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
             {
-                if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) > highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
-                {
-                    highestRankedPlayer = players;
-                }
-                else if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) == highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
-                {
 
-                }
-            } */
+            }
+        } */
         }
         AllDecks.HighestRanked = AllDecks.Player.OrderByDescending(x => x.CardRank).FirstOrDefault()!;
         return AllDecks;
+    }
+
+    public static Poker From(External.Poker poker)
+    {
+        return new Poker
+        {
+            TotalPlayers = poker.TotalPlayers,
+            AllDecks = PokerDeck.From(poker.AllDecks)
+        };
     }
 }

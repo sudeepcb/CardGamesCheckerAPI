@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using System;
 using System.Linq;
+using PokerGameCheckerMicroservice.Models.External;
 
 /// <summary>
 /// Represents a player in a Poker game.
@@ -76,5 +77,17 @@ public class PokerPlayer : IPlayer
     public PokerPlayer()
     {
 
+    }
+
+    public static PokerPlayer? From(Player? player)
+    {
+        return player is not null
+            ? new PokerPlayer
+            {
+                Name = player.Name,
+                CardRank = player.CardRank,
+                cardsInHand = player.CardsInHand
+            }
+            : null;
     }
 }

@@ -66,5 +66,15 @@ namespace PokerGameCheckerMicroservice.Models
         {
 
         }
+
+        public static PokerDeck From(External.PokerDeck allDecks)
+        {
+            return new PokerDeck
+            {
+                TotalCards = allDecks.TotalCards,
+                HighestRanked = PokerPlayer.From(allDecks.HighestRanked),
+                Player = allDecks.Players.Select(PokerPlayer.From).OfType<PokerPlayer>().ToList()
+            };
+        }
     }
 }
