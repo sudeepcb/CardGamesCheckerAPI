@@ -42,7 +42,7 @@ public record Player(string Name, string[] CardsInHand, int CardRank)
     public static Player? From(PokerPlayer? player)
     {
         return player is not null
-            ? new Player(player.Name, player.cardsInHand, player.CardRank)
+            ? new Player(player.Name, player.CardsInHand, player.CardRank)
             : null;
     }
 }

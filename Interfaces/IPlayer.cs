@@ -4,7 +4,7 @@
     {
         string Name { get; set;  }
 
-        string[] cardsInHand { get; set; }
+        string[] CardsInHand { get; set; }
 
         int CardRank { get; set; }
 

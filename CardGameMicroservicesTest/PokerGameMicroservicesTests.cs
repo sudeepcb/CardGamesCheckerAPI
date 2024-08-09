@@ -1,7 +1,6 @@
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using PokerGameCheckerMicroservice;
 using PokerGameCheckerMicroservice.Controllers;
 using PokerGameCheckerMicroservice.Models;
@@ -26,10 +25,10 @@ namespace CardGameMicroservicesTest
             var deck = new PokerDeck();
             var player1 = new PokerPlayer();
             player1.Name = "Player1";
-            player1.cardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
+            player1.CardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
             var player2 = new PokerPlayer();
             player2.Name = "Player2";
-            player2.cardsInHand = new string[5] { "3D", "3H", "5S", "6C", "7S" };
+            player2.CardsInHand = new string[5] { "3D", "3H", "5S", "6C", "7S" };
             deck.Player = new List<PokerPlayer> { player1, player2 };
             deck.TotalCards = 10;
             pokerModel.AllDecks = deck;
@@ -64,9 +63,9 @@ namespace CardGameMicroservicesTest
         {
             var pokerPlayer = new PokerPlayer();
             pokerPlayer.Name = "Player1";
-            pokerPlayer.cardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
+            pokerPlayer.CardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
 
-            var result = CardConstants.EvaluateHand(pokerPlayer.cardsInHand);
+            var result = CardConstants.EvaluateHand(pokerPlayer.CardsInHand);
 
             result.Should().BeGreaterThanOrEqualTo(0);
 

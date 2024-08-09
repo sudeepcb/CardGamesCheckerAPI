@@ -1,10 +1,6 @@
-﻿using Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using Swashbuckle.AspNetCore.Filters;
-using System.Net;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.AspNetCore.Mvc;
 using PokerGameCheckerMicroservice.Models.External;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PokerGameCheckerMicroservice.Controllers
 {
@@ -21,11 +17,11 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("pokerdata")]
         public IActionResult GeneratePokerData([FromQuery] int totalPlayers)
         {
-            return Ok(Models.External.Poker.From(CardConstants.GeneratePokerData(totalPlayers)));
+            return Ok(Poker.From(CardConstants.GeneratePokerData(totalPlayers)));
         }
         
         ///<summary>
@@ -33,7 +29,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("straightflush")]
         public IActionResult GenerateStraightFlush([FromQuery] int totalPlayers)
         {
@@ -45,7 +41,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("fourofakind")]
         public IActionResult GenerateFourOfAKind([FromQuery] int totalPlayers)
         {
@@ -57,7 +53,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("fullhouse")]
           public IActionResult GenerateFullHouse([FromQuery] int totalPlayers)
         {
@@ -69,7 +65,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("flush")]
            public IActionResult GenerateFlush([FromQuery] int totalPlayers)
         {
@@ -81,7 +77,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("straight")]
         public IActionResult GenerateStraight([FromQuery] int totalPlayers)
         {
@@ -93,7 +89,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("threeofakind")]
           public IActionResult GenerateThreeOfAKind([FromQuery] int totalPlayers)
         {
@@ -105,7 +101,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("twopair")]
            public IActionResult GenerateTwoPair([FromQuery] int totalPlayers)
         {
@@ -117,7 +113,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("onepair")]
         public IActionResult GenerateOnePair([FromQuery] int totalPlayers)
         {
@@ -129,7 +125,7 @@ namespace PokerGameCheckerMicroservice.Controllers
         ///</summary>
         /// <param name="totalPlayers">Total # of players</param>
         /// <returns>A poker game</returns>
-        [SwaggerResponse(200, "Poker Game Data", typeof(Models.External.Poker))]
+        [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [HttpGet("highcard")]
           public IActionResult GenerateHighCard([FromQuery] int totalPlayers)
         {

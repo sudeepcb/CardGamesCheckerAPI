@@ -1,6 +1,4 @@
 ﻿using Interfaces;
-using System;
-using System.Linq;
 using PokerGameCheckerMicroservice.Models.External;
 
 /// <summary>
@@ -25,12 +23,12 @@ public class PokerPlayer : IPlayer
         }
     }
 
-    private string[]? _cardsInHand = null;
+    private string[]? _cardsInHand;
 
     /// <summary>
     /// Gets or sets an array of cards in the player's hand.
     /// </summary>
-    public string[] cardsInHand
+    public string[] CardsInHand
     {
         get
         {
@@ -86,7 +84,7 @@ public class PokerPlayer : IPlayer
             {
                 Name = player.Name,
                 CardRank = player.CardRank,
-                cardsInHand = player.CardsInHand
+                CardsInHand = player.CardsInHand
             }
             : null;
     }

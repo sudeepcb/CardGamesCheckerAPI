@@ -1,13 +1,11 @@
-﻿using Interfaces;
-
-namespace PokerGameCheckerMicroservice.Models
+﻿namespace PokerGameCheckerMicroservice.Models
 {
     /// <summary>
     /// Represents a deck of cards for a Poker game.
     /// </summary>
     public class PokerDeck
     {
-        private List<PokerPlayer>? _players = null!;
+        private List<PokerPlayer>? _players;
 
         /// <summary>
         /// Gets or sets a list of players using this deck.

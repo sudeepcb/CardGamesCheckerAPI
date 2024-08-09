@@ -19,7 +19,7 @@ public class Poker
         }
     }
 
-    private PokerDeck? _decksInHand = null!;
+    private PokerDeck? _decksInHand;
 
     /// <summary>
     /// Gets or sets deck for the current game.
@@ -61,7 +61,7 @@ public class Poker
 
         foreach (var players in _decksInHand.Player)
         {
-            var rank = CardConstants.EvaluateHand(players.cardsInHand);
+            var rank = CardConstants.EvaluateHand(players.CardsInHand);
             players.CardRank = rank;
 
             /* if (highestRankedPlayer == null)
