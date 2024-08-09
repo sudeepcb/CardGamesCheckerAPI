@@ -57,15 +57,9 @@ namespace CardGameMicroservicesTest
         [Fact]
         public void CardConstants_CheckIfCardRankingIsCorrectForGame_ReturnsRankWithGivenCards()
         {
-            var pokerPlayer = new PokerPlayer();
-            pokerPlayer.Name = "Player1";
-            pokerPlayer.CardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
+            var result = CardConstants.EvaluateHand(["3D", "4H", "5S", "6C", "7S"]);
 
-            var result = CardConstants.EvaluateHand(pokerPlayer.CardsInHand);
-
-            result.Should().BeGreaterThanOrEqualTo(0);
-
-            result.Should().BeOfType(typeof(int));
+           result.Should().Be(5);
         }
     }
 }
