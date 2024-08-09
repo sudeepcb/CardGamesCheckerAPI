@@ -1,4 +1,3 @@
-using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using PokerGameCheckerMicroservice;
@@ -9,12 +8,10 @@ namespace CardGameMicroservicesTest
 {
     public class PokerGameMicroservicesTests
     {
-        private readonly IFixture _fixture;
         private readonly PokerGamesController _sut;
 
         public PokerGameMicroservicesTests()
         {
-            _fixture = new Fixture();
             _sut = new PokerGamesController();
         }
         [Fact]

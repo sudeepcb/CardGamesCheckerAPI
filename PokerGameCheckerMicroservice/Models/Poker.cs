@@ -29,14 +29,7 @@ public class Poker
         get { return _decksInHand ?? new PokerDeck(); }
         set
         {
-            if (value != null)
-            {
-                _decksInHand = value;
-            }
-            else
-            {
-                throw new ArgumentNullException("MyProperty cannot be set to null");
-            }
+            _decksInHand = value;
         }
     }
 
@@ -56,7 +49,7 @@ public class Poker
     {
         if (_decksInHand?.Player.Count != _players)
         {
-            throw new ArgumentNullException("Total Players does not match Decks of Players");
+            throw new ArgumentNullException(nameof(TotalPlayers), "Total Players does not match Decks of Players");
         }
 
         foreach (var players in _decksInHand.Player)
@@ -84,6 +77,11 @@ public class Poker
         return AllDecks;
     }
 
+    /// <summary>
+    /// Converts external model to internal model
+    /// </summary>
+    /// <param name="poker">external model</param>
+    /// <returns>internal model</returns>
     public static Poker From(External.Poker poker)
     {
         return new Poker

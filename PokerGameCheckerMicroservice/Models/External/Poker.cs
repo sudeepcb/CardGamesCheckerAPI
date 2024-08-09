@@ -9,6 +9,11 @@ public record Poker(
     int TotalPlayers, 
     PokerDeck AllDecks)
 {
+    /// <summary>
+    /// Convert from internal model to external
+    /// </summary>
+    /// <param name="poker">internal model</param>
+    /// <returns>external model</returns>
     public static Poker From(Models.Poker poker)
     {
         return new Poker(poker.TotalPlayers, PokerDeck.From(poker.AllDecks));
@@ -21,8 +26,16 @@ public record Poker(
 /// <param name="Players">list of players using this deck.</param>
 /// <param name="TotalCards">the total number of cards in the deck.</param>
 /// <param name="HighestRanked">the highest ranked player</param>
+
+// We still want to have these properties in JSON output of our API
+// ReSharper disable once NotAccessedPositionalProperty.Global
 public record PokerDeck(IEnumerable<Player> Players, int TotalCards, Player? HighestRanked)
 {
+    /// <summary>
+    /// Convert from internal model to external
+    /// </summary>
+    /// <param name="allDecks">internal model</param>
+    /// <returns>external model</returns>
     public static PokerDeck From(Models.PokerDeck allDecks)
     {
         return new PokerDeck(allDecks.Player.Select(Player.From).OfType<Player>(),
@@ -39,6 +52,11 @@ public record PokerDeck(IEnumerable<Player> Players, int TotalCards, Player? Hig
 /// <param name="CardRank">the player's card rank.</param>
 public record Player(string Name, string[] CardsInHand, int CardRank)
 {
+    /// <summary>
+    /// Convert from internal model to external
+    /// </summary>
+    /// <param name="player">internal model</param>
+    /// <returns>external model</returns>
     public static Player? From(PokerPlayer? player)
     {
         return player is not null

@@ -32,13 +32,13 @@ namespace PokerGameCheckerMicroservice
 
             //check for straight (consecutive ranks)
             var sortedRanks = ranks.OrderBy(rank => Ranks.IndexOf(rank));
-            var getIndex = sortedRanks.Select((rank, index) => Ranks.IndexOf(rank)).ToArray();
+            var getIndex = sortedRanks.Select((rank, _) => Ranks.IndexOf(rank)).ToArray();
             bool isStraight = getIndex.SequenceEqual(getIndex); 
             //rank card in dictionary to counts of each card for checking pairs,and kinds
             var rankCounts = ranks.GroupBy(rank => rank).ToDictionary(group => group.Key, group => group.Count());
             var pair = rankCounts.Any(pair => pair.Value == 2);
-            var threeOfAKind = rankCounts.Any(pair => pair.Value == 3);
-            var fourOfAKind = rankCounts.Any(pair => pair.Value == 4);
+            var threeOfAKind = rankCounts.Any(p => p.Value == 3);
+            var fourOfAKind = rankCounts.Any(p => p.Value == 4);
 
             // Determine the rank of the hand
             if (isFlush && isStraight)
@@ -67,12 +67,8 @@ namespace PokerGameCheckerMicroservice
         ///</summary>
         public static Poker GeneratePokerData(int totalPlayers)
         {
-            Poker poker = null!;
+            Poker poker;
             var random = new Random();
-            string data =  String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]);
-            var decks = Enumerable.Range(0, 5)
-                                    .Select(_ => Ranks[random.Next(0, Ranks.Length)] + Suits[random.Next(0, Suits.Length)])
-                                    .ToArray();
 
             string[] names = ["Heart", "Spade", "Diamond", "Club", "Ace"];
             List<PokerPlayer> generatedPlayers = Enumerable.Range(0, totalPlayers).Select(_ => new PokerPlayer
