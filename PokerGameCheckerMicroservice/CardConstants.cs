@@ -94,8 +94,7 @@ namespace PokerGameCheckerMicroservice
                 TotalPlayers = totalPlayers,
                 AllDecks = new PokerDeck
                 {
-                    Player = generatedPlayers,
-                    TotalCards = 52
+                    Player = generatedPlayers
                 }
             };
 

@@ -23,22 +23,10 @@
             }
         }
 
-        private int _totalCards;
-
         /// <summary>
         /// Gets or sets the total number of cards in the deck.
         /// </summary>
-        public int TotalCards
-        {
-            get
-            {
-                return _totalCards;
-            }
-            set
-            {
-                _totalCards = 52;
-            }
-        }
+        public int TotalCards => 52;
 
         private PokerPlayer? _highestRanked;
 
@@ -65,11 +53,15 @@
 
         }
 
+        /// <summary>
+        /// Convert external model to internal model
+        /// </summary>
+        /// <param name="allDecks">external model </param>
+        /// <returns>internal model</returns>
         public static PokerDeck From(External.PokerDeck allDecks)
         {
             return new PokerDeck
             {
-                TotalCards = allDecks.TotalCards,
                 HighestRanked = PokerPlayer.From(allDecks.HighestRanked),
                 Player = allDecks.Players.Select(PokerPlayer.From).OfType<PokerPlayer>().ToList()
             };

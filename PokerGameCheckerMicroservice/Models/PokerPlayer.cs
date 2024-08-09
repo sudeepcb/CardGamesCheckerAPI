@@ -1,6 +1,8 @@
 ﻿using Interfaces;
 using PokerGameCheckerMicroservice.Models.External;
 
+namespace PokerGameCheckerMicroservice.Models;
+
 /// <summary>
 /// Represents a player in a Poker game.
 /// </summary>
@@ -19,7 +21,7 @@ public class PokerPlayer : IPlayer
         }
         set
         {
-          _name = value;
+            _name = value;
         }
     }
 
@@ -36,17 +38,15 @@ public class PokerPlayer : IPlayer
         }
         set
         {
-            if(value != null){
-                
-                var isValid = value.All(c => c.Length == 2);
-                if (isValid && (value.Length > 3 && value.Length < 6))
-                {
-                    _cardsInHand = value;
-                }
-                else
-                {
-                    throw new ArgumentNullException("Cards must have rank and suits defined and must have at least 3 cards and no more than 5");
-                }
+            var isValid = value.All(c => c.Length == 2);
+            if (isValid && (value.Length > 3 && value.Length < 6))
+            {
+                _cardsInHand = value;
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(CardsInHand),
+                    "Cards must have rank and suits defined and must have at least 3 cards and no more than 5");
             }
         }
 
@@ -74,9 +74,13 @@ public class PokerPlayer : IPlayer
     /// </summary>
     public PokerPlayer()
     {
-
     }
 
+    /// <summary>
+    /// Converts from external to internal model 
+    /// </summary>
+    /// <param name="player">external Player model</param>
+    /// <returns>internal Player model</returns>
     public static PokerPlayer? From(Player? player)
     {
         return player is not null
