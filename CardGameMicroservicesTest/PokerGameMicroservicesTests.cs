@@ -33,7 +33,7 @@ namespace CardGameMicroservicesTest
             deck.Player = new List<PokerPlayer> { player1, player2 };
             deck.TotalCards = 10;
             pokerModel.AllDecks = deck;
-            var result = _sut.CalculateWinner(pokerModel);
+            var result = _sut.CalculateWinner(PokerGameCheckerMicroservice.Models.External.Poker.From(pokerModel));
 
             result.Should().NotBeNull();
 
