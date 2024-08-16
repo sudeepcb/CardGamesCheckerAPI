@@ -1,8 +1,4 @@
-﻿using Interfaces;
-using PokerGameCheckerMicroservice;
-using PokerGameCheckerMicroservice.Models;
-using System;
-using System.Collections.Generic;
+﻿namespace PokerGameCheckerMicroservice.Models;
 
 /// <summary>
 /// Represents a Poker game.
@@ -19,11 +15,11 @@ public class Poker
         get { return _players; }
         set
         {
-           _players = value;
+            _players = value;
         }
     }
 
-    private PokerDeck? _decksInHand = null!;
+    private PokerDeck? _decksInHand;
 
     /// <summary>
     /// Gets or sets deck for the current game.
@@ -33,14 +29,7 @@ public class Poker
         get { return _decksInHand ?? new PokerDeck(); }
         set
         {
-            if (value != null)
-            {
-                _decksInHand = value;
-            }
-            else
-            {
-                throw new ArgumentNullException("MyProperty cannot be set to null");
-            }
+            _decksInHand = value;
         }
     }
 
@@ -60,31 +49,45 @@ public class Poker
     {
         if (_decksInHand?.Player.Count != _players)
         {
-            throw new ArgumentNullException("Total Players does not match Decks of Players");
+            throw new ArgumentNullException(nameof(TotalPlayers), "Total Players does not match Decks of Players");
         }
 
         foreach (var players in _decksInHand.Player)
         {
-            var rank = CardConstants.EvaluateHand(players.cardsInHand);
+            var rank = CardConstants.EvaluateHand(players.CardsInHand);
             players.CardRank = rank;
 
             /* if (highestRankedPlayer == null)
+        {
+            highestRankedPlayer = players;
+        }
+        else if (highestRankedPlayer.CardRank == rank)
+        {
+            if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) > highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
             {
                 highestRankedPlayer = players;
             }
-            else if (highestRankedPlayer.CardRank == rank)
+            else if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) == highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
             {
-                if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) > highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
-                {
-                    highestRankedPlayer = players;
-                }
-                else if (players.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])) == highestRankedPlayer.cardsInHand.Max(card => CardConstants.RANKS.IndexOf(card[0])))
-                {
 
-                }
-            } */
+            }
+        } */
         }
         AllDecks.HighestRanked = AllDecks.Player.OrderByDescending(x => x.CardRank).FirstOrDefault()!;
         return AllDecks;
+    }
+
+    /// <summary>
+    /// Converts external model to internal model
+    /// </summary>
+    /// <param name="poker">external model</param>
+    /// <returns>internal model</returns>
+    public static Poker From(External.Poker poker)
+    {
+        return new Poker
+        {
+            TotalPlayers = poker.TotalPlayers,
+            AllDecks = PokerDeck.From(poker.AllDecks)
+        };
     }
 }

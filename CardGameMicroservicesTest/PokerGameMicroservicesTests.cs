@@ -1,7 +1,5 @@
-using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 using PokerGameCheckerMicroservice;
 using PokerGameCheckerMicroservice.Controllers;
 using PokerGameCheckerMicroservice.Models;
@@ -10,13 +8,11 @@ namespace CardGameMicroservicesTest
 {
     public class PokerGameMicroservicesTests
     {
-        private readonly IFixture _fixture;
-        private readonly PokerGameController _sut;
+        private readonly PokerGamesController _sut;
 
         public PokerGameMicroservicesTests()
         {
-            _fixture = new Fixture();
-            _sut = new PokerGameController();
+            _sut = new PokerGamesController();
         }
         [Fact]
         public void PokerGameChecker_CalculateWinner_ReturnsIActionResult()
@@ -26,14 +22,13 @@ namespace CardGameMicroservicesTest
             var deck = new PokerDeck();
             var player1 = new PokerPlayer();
             player1.Name = "Player1";
-            player1.cardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
+            player1.CardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
             var player2 = new PokerPlayer();
             player2.Name = "Player2";
-            player2.cardsInHand = new string[5] { "3D", "3H", "5S", "6C", "7S" };
+            player2.CardsInHand = new string[5] { "3D", "3H", "5S", "6C", "7S" };
             deck.Player = new List<PokerPlayer> { player1, player2 };
-            deck.TotalCards = 10;
             pokerModel.AllDecks = deck;
-            var result = _sut.CalculateWinner(pokerModel);
+            var result = _sut.CalculateWinner(PokerGameCheckerMicroservice.Models.External.Poker.From(pokerModel));
 
             result.Should().NotBeNull();
 
@@ -62,15 +57,9 @@ namespace CardGameMicroservicesTest
         [Fact]
         public void CardConstants_CheckIfCardRankingIsCorrectForGame_ReturnsRankWithGivenCards()
         {
-            var pokerPlayer = new PokerPlayer();
-            pokerPlayer.Name = "Player1";
-            pokerPlayer.cardsInHand = new string[5] { "3D", "4H", "5S", "6C", "7S" };
+            var result = CardConstants.EvaluateHand(["3D", "4H", "5S", "6C", "7S"]);
 
-            var result = CardConstants.EvaluateHand(pokerPlayer.cardsInHand);
-
-            result.Should().BeGreaterThanOrEqualTo(0);
-
-            result.Should().BeOfType(typeof(int));
+           result.Should().Be(5);
         }
     }
 }

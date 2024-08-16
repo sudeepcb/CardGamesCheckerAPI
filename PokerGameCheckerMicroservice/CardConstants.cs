@@ -1,9 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.WebSockets;
-using System.Reflection;
-using System.Security.Cryptography;
-using PokerGameCheckerMicroservice.Models;
+﻿using PokerGameCheckerMicroservice.Models;
 
 namespace PokerGameCheckerMicroservice
 {
@@ -16,11 +11,11 @@ namespace PokerGameCheckerMicroservice
         /// <summary>
         /// Cards in a Typical Poker Game
         /// </summary>
-        public static readonly string RANKS = "23456789TJQKA";
+        public static readonly string Ranks = "23456789TJQKA";
         /// <summary>
         /// Club, Diamond, Heart, Spades
         /// </summary>
-        public static readonly string SUITS = "♠♥♦♣";
+        public static readonly string Suits = "♠♥♦♣";
 
         /// <summary>
         /// Evaluates a poker hand and determines its ranking.
@@ -36,14 +31,14 @@ namespace PokerGameCheckerMicroservice
             var isFlush = suits.All(s => s == suits[0]);
 
             //check for straight (consecutive ranks)
-            var sortedRanks = ranks.OrderBy(rank => RANKS.IndexOf(rank));
-            var getIndex = sortedRanks.Select((rank, index) => RANKS.IndexOf(rank)).ToArray();
+            var sortedRanks = ranks.OrderBy(rank => Ranks.IndexOf(rank));
+            var getIndex = sortedRanks.Select((rank, _) => Ranks.IndexOf(rank)).ToArray();
             bool isStraight = getIndex.SequenceEqual(getIndex); 
             //rank card in dictionary to counts of each card for checking pairs,and kinds
             var rankCounts = ranks.GroupBy(rank => rank).ToDictionary(group => group.Key, group => group.Count());
             var pair = rankCounts.Any(pair => pair.Value == 2);
-            var threeOfAKind = rankCounts.Any(pair => pair.Value == 3);
-            var fourOfAKind = rankCounts.Any(pair => pair.Value == 4);
+            var threeOfAKind = rankCounts.Any(p => p.Value == 3);
+            var fourOfAKind = rankCounts.Any(p => p.Value == 4);
 
             // Determine the rank of the hand
             if (isFlush && isStraight)
@@ -72,24 +67,20 @@ namespace PokerGameCheckerMicroservice
         ///</summary>
         public static Poker GeneratePokerData(int totalPlayers)
         {
-            Poker poker = null!;
+            Poker poker;
             var random = new Random();
-            string data =  String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]);
-            var decks = Enumerable.Range(0, 5)
-                                    .Select(_ => RANKS[random.Next(0, RANKS.Length)] + SUITS[random.Next(0, SUITS.Length)])
-                                    .ToArray();
 
             string[] names = ["Heart", "Spade", "Diamond", "Club", "Ace"];
             List<PokerPlayer> generatedPlayers = Enumerable.Range(0, totalPlayers).Select(_ => new PokerPlayer
             {
                 Name = names[random.Next(0, names.Length)],
-                cardsInHand = new string[5]
+                CardsInHand = new string[5]
                 {
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
+                    String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]),
+                    String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]),
+                    String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]),
+                    String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]),
+                    String.Format("{0}{1}", Ranks[random.Next(0, Ranks.Length)], Suits[random.Next(0, Suits.Length)]),
                 },
                 CardRank = 0
             }).ToList();
@@ -99,8 +90,7 @@ namespace PokerGameCheckerMicroservice
                 TotalPlayers = totalPlayers,
                 AllDecks = new PokerDeck
                 {
-                    Player = generatedPlayers,
-                    TotalCards = 52
+                    Player = generatedPlayers
                 }
             };
 

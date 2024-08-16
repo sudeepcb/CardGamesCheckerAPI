@@ -1,8 +1,5 @@
-using Interfaces;
-using Microsoft.OpenApi.Models;
-using PokerGameCheckerMicroservice.Models;
-using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 
 namespace PokerGameCheckerMicroservice
 {
