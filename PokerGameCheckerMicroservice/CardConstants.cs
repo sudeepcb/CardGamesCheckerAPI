@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.WebSockets;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
+using Microsoft.VisualBasic;
 using PokerGameCheckerMicroservice.Models;
 
 namespace PokerGameCheckerMicroservice
@@ -21,7 +26,10 @@ namespace PokerGameCheckerMicroservice
         /// Club, Diamond, Heart, Spades
         /// </summary>
         public static readonly string SUITS = "♠♥♦♣";
-
+        /// <summary>
+        /// Card Hand Ranks
+        /// </summary>
+        public static readonly string[] pokerCardRanks = ["Straight Flush", "Straight", "FourKind", "ThreeKind", "TwoKind", "OneKind", "HighCard"];
         /// <summary>
         /// Evaluates a poker hand and determines its ranking.
         /// </summary>
@@ -70,41 +78,146 @@ namespace PokerGameCheckerMicroservice
         ///<summary>
         ///Generates data for a poker game
         ///</summary>
-        public static Poker GeneratePokerData(int totalPlayers)
+        public static Poker GeneratePokerData(int totalPlayers, bool isFlush, bool isStraight, int nKinds, bool isDistinct, bool isRandom)
         {
-            Poker poker = null!;
-            var random = new Random();
-            string data =  String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]);
-            var decks = Enumerable.Range(0, 5)
-                                    .Select(_ => RANKS[random.Next(0, RANKS.Length)] + SUITS[random.Next(0, SUITS.Length)])
-                                    .ToArray();
-
-            string[] names = ["Heart", "Spade", "Diamond", "Club", "Ace"];
-            List<PokerPlayer> generatedPlayers = Enumerable.Range(0, totalPlayers).Select(_ => new PokerPlayer
+            Poker poker = new Poker()!;
+            Func<bool,bool,int,bool, PokerPlayer> executeGenerator = GeneratePokerPlayerWithCards;
+            List<PokerPlayer> pokerPlayers = null!;
+            
+            poker.TotalPlayers = totalPlayers;
+            foreach(int index in Enumerable.Range(0, totalPlayers))
             {
-                Name = names[random.Next(0, names.Length)],
-                cardsInHand = new string[5]
+                if(isRandom)
                 {
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                    String.Format("{0}{1}", RANKS[random.Next(0, RANKS.Length)], SUITS[random.Next(0, SUITS.Length)]),
-                },
-                CardRank = 0
-            }).ToList();
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "Straight Flush")
+                    {
+                        pokerPlayers.Add(executeGenerator(true, true, 0, false));
+                    }
+                    
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "Straight")
+                    {
+                        pokerPlayers.Add(executeGenerator(true, false, 0, false));
+                    }
 
-            poker = new Poker
-            {
-                TotalPlayers = totalPlayers,
-                AllDecks = new PokerDeck
-                {
-                    Player = generatedPlayers,
-                    TotalCards = 52
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "FourKind")
+                    {
+                        pokerPlayers.Add(executeGenerator(false, false, 4, false));
+                    }
+
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "ThreeKind")
+                    {
+                        pokerPlayers.Add(executeGenerator(false, false, 3, false));
+                    }
+
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "Two Kind")
+                    {
+                        pokerPlayers.Add(executeGenerator(false, false, 2, false));
+                    }
+
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "oneKind")
+                    {
+                        pokerPlayers.Add(executeGenerator(false, false, 1, false));
+                    }
+
+                    if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "HighCard")
+                    {
+                        pokerPlayers.Add(executeGenerator(false, false, 0, true));
+                    }
                 }
+                pokerPlayers.Add(GeneratePokerPlayerWithCards(isStraight, isFlush, nKinds, isDistinct));
+            }
+            poker.AllDecks = new PokerDeck
+            {
+                Player = pokerPlayers,
+                TotalCards = 52,
             };
 
             return poker;
+        }
+
+
+        /// <summary>
+        /// Generate specific poker hands
+        /// </summary>
+        public static PokerPlayer GeneratePokerPlayerWithCards(bool isStraight, bool isFlush, int nKinds, bool isDistinct)
+        {
+            string[] names = ["Hearts", "Spades", "Diamond", "Spade", "Ace"];
+            Random random = new Random();
+            PokerPlayer pokerPlayer = new PokerPlayer();
+            var data = RANKS.Length - 1;
+            string pairsRanks = String.Format("{0},{1}", RANKS[random.Next(0, random.Next(0, RANKS.Length - 1))], SUITS[random.Next(0,SUITS.Length - 1)]);
+            char rank = RANKS[random.Next(0,RANKS.Length)];
+            char suits = SUITS[random.Next(0,SUITS.Length)];
+            int[] randomUniqueNums = randomUniqueNumsGenerator();
+            
+
+            if(isStraight && isFlush)
+            {
+                pokerPlayer.cardsInHand = new string[5]
+                {
+                    pairsRanks,
+                    pairsRanks,
+                    pairsRanks,
+                    pairsRanks,
+                    pairsRanks
+                };
+            }   
+
+            if(isStraight)
+            {
+                pokerPlayer.cardsInHand = new string[5]
+                {
+                    String.Format("{0}{1}", rank + SUITS[randomUniqueNums[0]]),
+                    String.Format("{0}{1}", rank + SUITS[randomUniqueNums[1]]),
+                    String.Format("{0}{1}", rank + SUITS[randomUniqueNums[2]]),
+                    String.Format("{0}{1}", rank + SUITS[randomUniqueNums[3]]),
+                    String.Format("{0}{1}", rank + SUITS[randomUniqueNums[4]])
+                };
+            }
+
+            if(isDistinct)
+            {
+                pokerPlayer.cardsInHand = new string[5]
+                {
+                    String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[0]]),
+                    String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[1]]),
+                    String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[2]]),
+                    String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[3]]),
+                    String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[4]])
+                };
+            }
+
+            if(nKinds > 0)
+            {
+                string[] nPairs = new string[5];
+                foreach (int i in Enumerable.Range(0,nKinds - 1))
+                {
+                    nPairs[i] = String.Format("{0}{1}", rank, suits);
+                }
+
+                foreach(int i in Enumerable.Range(nKinds, 5))
+                {
+                    nPairs[i] = String.Format("{0}{1}", RANKS[randomUniqueNums[0]] + SUITS[randomUniqueNums[1]]);
+                }
+            }
+            
+            return pokerPlayer;
+        }
+
+        private static int[] randomUniqueNumsGenerator()
+        {
+            int[] randomUniqueNums = [];
+            while(randomUniqueNums.Length != 5)
+            {
+                var randomSeed = new Random().Next(0,13);
+                var numsExists = randomUniqueNums.Contains(randomSeed);
+                if(!numsExists)
+                {
+                    randomUniqueNums[randomUniqueNums.Length - 1] = randomSeed;
+                }   
+            }
+
+            return randomUniqueNums;
         }
     }
 }
