@@ -82,12 +82,12 @@ namespace PokerGameCheckerMicroservice
         {
             Poker poker = new Poker()!;
             Func<bool,bool,int,bool, PokerPlayer> executeGenerator = GeneratePokerPlayerWithCards;
-            List<PokerPlayer> pokerPlayers = null!;
+            List<PokerPlayer> pokerPlayers = new List<PokerPlayer>()!;
             
             poker.TotalPlayers = totalPlayers;
             foreach(int index in Enumerable.Range(0, totalPlayers))
             {
-                if(isRandom)
+                if(isRandom && (isFlush == false || isStraight == false || nKinds == 0 || isDistinct == false))
                 {
                     if(pokerCardRanks[new Random().Next(0,pokerCardRanks.Length - 1)] == "Straight Flush")
                     {
@@ -124,7 +124,7 @@ namespace PokerGameCheckerMicroservice
                         pokerPlayers.Add(executeGenerator(false, false, 0, true));
                     }
                 }
-                pokerPlayers.Add(GeneratePokerPlayerWithCards(isStraight, isFlush, nKinds, isDistinct));
+                pokerPlayers.Add(executeGenerator(isStraight, isFlush, nKinds, isDistinct));
             }
             poker.AllDecks = new PokerDeck
             {
@@ -145,7 +145,7 @@ namespace PokerGameCheckerMicroservice
             Random random = new Random();
             PokerPlayer pokerPlayer = new PokerPlayer();
             var data = RANKS.Length - 1;
-            string pairsRanks = String.Format("{0},{1}", RANKS[random.Next(0, random.Next(0, RANKS.Length - 1))], SUITS[random.Next(0,SUITS.Length - 1)]);
+            string pairsRanks = String.Format("{0}{1}", RANKS[random.Next(0, random.Next(0, RANKS.Length - 1))], SUITS[random.Next(0,SUITS.Length - 1)]);
             char rank = RANKS[random.Next(0,RANKS.Length)];
             char suits = SUITS[random.Next(0,SUITS.Length)];
             int[] randomUniqueNums = randomUniqueNumsGenerator();
@@ -163,7 +163,7 @@ namespace PokerGameCheckerMicroservice
                 };
             }   
 
-            if(isStraight)
+            if(isStraight && pokerPlayer.cardsInHand == null)
             {
                 pokerPlayer.cardsInHand = new string[5]
                 {
@@ -175,7 +175,7 @@ namespace PokerGameCheckerMicroservice
                 };
             }
 
-            if(isDistinct)
+            if(isDistinct && pokerPlayer.cardsInHand != null)
             {
                 pokerPlayer.cardsInHand = new string[5]
                 {
@@ -206,14 +206,16 @@ namespace PokerGameCheckerMicroservice
 
         private static int[] randomUniqueNumsGenerator()
         {
-            int[] randomUniqueNums = [];
-            while(randomUniqueNums.Length != 5)
+            int[] randomUniqueNums = new int[5];
+            while(randomUniqueNums.Length < 5)
             {
                 var randomSeed = new Random().Next(0,13);
                 var numsExists = randomUniqueNums.Contains(randomSeed);
+                var i = 0;
                 if(!numsExists)
                 {
-                    randomUniqueNums[randomUniqueNums.Length - 1] = randomSeed;
+                    randomUniqueNums[i] = randomSeed;
+                    i++;
                 }   
             }
 

@@ -29,8 +29,8 @@ namespace PokerGameCheckerMicroservice.Controllers
         /// <param name="isFlush">All Same SUITS ex:Hearts</param>
         /// <param name="isStraight">All Same RANKS ex:2-10/JKQA</param>
         /// <param name="nKinds">N </param>
-        /// <param name="isUniqueCards">Total # of players</param>
-        /// <param name="isRandom">Total # of players</param>
+        /// <param name="isUniqueCards">High Card Values</param>
+        /// <param name="isRandom">Random Selections of the different poker ranks</param>
         /// <returns>A poker game</returns>
         [SwaggerResponse(200, "Poker Game Data", typeof(Poker))]
         [SwaggerResponse(404, Type = typeof(NotFoundResult))]
@@ -38,6 +38,10 @@ namespace PokerGameCheckerMicroservice.Controllers
         [HttpGet]
         public IActionResult GeneratePokerData([FromQuery] int totalPlayers, [FromQuery] bool isFlush, [FromQuery] bool isStraight, [FromQuery] int nKinds, [FromQuery] bool isUniqueCards, [FromQuery] bool isRandom) 
         {
+            if(isFlush || isStraight)
+            {
+                nKinds = 0;
+            }
             return Ok(CardConstants.GeneratePokerData(totalPlayers, isFlush, isStraight, nKinds, isUniqueCards, isRandom));
         }
         
